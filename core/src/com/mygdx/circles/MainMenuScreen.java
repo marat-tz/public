@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,6 +18,8 @@ public class MainMenuScreen implements Screen {
 
     final Circles game;
     private Stage stage;
+    private Button buttonStart;
+    private Button buttonQuit;
     OrthographicCamera camera;
     Viewport viewport;
     ShapeRenderer newGame;
@@ -30,28 +29,39 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final Circles game) {
         this.game = game;
 
-        stage = new Stage(new FitViewport(800, 480));
+        stage = new Stage(new FillViewport(game.SCREEN_WIDTH, game.SCREEN_HEIGHT));
         Gdx.input.setInputProcessor(stage);
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        Window window = new Window("Window", mySkin);
+        /*Window window = new Window("Window", mySkin);
         window.setSize(800, 480);
-        stage.addActor(window);
+        stage.addActor(window);*/
 
-        Button buttonStart = new TextButton("Start Game", mySkin);
+        Table rootTable = new Table(mySkin);
+        rootTable.background("blue");
+        rootTable.setSize(800, 480);
+        stage.addActor(rootTable);
+
+        Label title = new Label("ARKANOID", mySkin);
+        title.setSize(150, 50);
+        title.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 + 100);
+        title.setFontScale(2.5f);
+        stage.addActor(title);
+
+        buttonStart = new TextButton("Start Game", mySkin);
         buttonStart.setSize(200, 30);
         buttonStart.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2);
         buttonStart.setTransform(true);
         buttonStart.scaleBy(0.5f);
         stage.addActor(buttonStart);
 
-        //camera = new OrthographicCamera();
-        //camera.setToOrtho(false, 800, 480);
-
-        newGame = new ShapeRenderer();
-        quit = new ShapeRenderer();
-
+        buttonQuit = new TextButton("Quit", mySkin);
+        buttonQuit.setSize(200, 30);
+        buttonQuit.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2 - 70);
+        buttonQuit.setTransform(true);
+        buttonQuit.scaleBy(0.5f);
+        stage.addActor(buttonQuit);
     }
 
     @Override
@@ -62,54 +72,14 @@ public class MainMenuScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
-        //camera.update();
-        //game.batch.setProjectionMatrix(camera.combined);
-
-        //game.batch.begin();
-        //game.font.draw(game.batch, "Play", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        //game.font.draw(game.batch, "Quit", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 50);
-        //game.batch.end();
-
-        /*newGame.begin(ShapeRenderer.ShapeType.Line);
-
-        if (Gdx.input.getX() > Gdx.graphics.getWidth()/2 - 36
-                && Gdx.input.getX() < Gdx.graphics.getWidth()/2 + 64
-                && (Gdx.input.getY() * -1) + Gdx.graphics.getHeight() > Gdx.graphics.getHeight()/2 - 20
-                && (Gdx.input.getY() * -1) + Gdx.graphics.getHeight() < Gdx.graphics.getHeight()/2 + 8) {
-            newGame.setColor(0, 1, 0, 1);
-
-            if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen(game));
-                dispose();
-            }
-
-        } else {
-            newGame.setColor(1, 1, 1, 1);
+        if (buttonStart.isChecked()) {
+            game.setScreen(new GameScreen(game));
+            dispose();
         }
 
-        newGame.rect(Gdx.graphics.getWidth()/2 - 36, Gdx.graphics.getHeight()/2 - 20, 100, 28);
-        newGame.end();
-
-        quit.begin(ShapeRenderer.ShapeType.Line);
-        //y = (Gdx.input.getY() * -1) + Gdx.graphics.getHeight();
-        if (Gdx.input.getX() > Gdx.graphics.getWidth()/2 - 36
-                && Gdx.input.getX() < Gdx.graphics.getWidth()/2 + 64
-                && (Gdx.input.getY() * -1) + Gdx.graphics.getHeight() > Gdx.graphics.getHeight()/2 - 70
-                && (Gdx.input.getY() * -1) + Gdx.graphics.getHeight() < Gdx.graphics.getHeight()/2 - 42) {
-            quit.setColor(0, 1, 0, 1);
-
-            if (Gdx.input.isTouched()) {
-                game.dispose();
-            }
-
-        } else {
-            quit.setColor(1, 1, 1, 1);
+        if (buttonQuit.isChecked()) {
+            game.dispose();
         }
-
-        quit.rect(Gdx.graphics.getWidth()/2 - 36, Gdx.graphics.getHeight()/2 - 70, 100, 28);
-
-        quit.end();*/
-
     }
 
     @Override

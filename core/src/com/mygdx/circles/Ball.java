@@ -12,7 +12,7 @@ public class Ball {
     double xSpeed;
     double ySpeed;
     int size;
-    Color color = Color.WHITE;
+    Color color = new Color(165/255.0f, 165/255.0f, 255/255.0f, 1.0f);
 
     public Ball(int x, int y, double xSpeed, double ySpeed, int size) {
         this.x = x;

@@ -13,6 +13,9 @@ public class Circles extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
 
+	public final int SCREEN_WIDTH = 800;
+	public final int SCREEN_HEIGHT = 480;
+
 	public void create() {
 
 		this.setScreen(new MainMenuScreen(this));

@@ -2,34 +2,73 @@ package com.mygdx.circles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 
 public class WinScreen implements Screen {
     final Circles game;
-    OrthographicCamera camera;
+    Stage stage;
+    Button buttonRestart;
+    Button buttonMenu;
 
     public WinScreen(final Circles game) {
-
         this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+
+        stage = new Stage(new FillViewport(game.SCREEN_WIDTH, game.SCREEN_HEIGHT));
+        Gdx.input.setInputProcessor(stage);
+
+        Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+        Table rootTable = new Table(mySkin);
+        rootTable.background("blue");
+        rootTable.setSize(800, 480);
+        stage.addActor(rootTable);
+
+        Label title = new Label("You WIN!", mySkin);
+        title.setSize(150, 50);
+        title.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2 + 100);
+        title.setFontScale(2.5f);
+        stage.addActor(title);
+
+        Label titleBottom = new Label("Master!", mySkin);
+        titleBottom.setSize(150, 50);
+        titleBottom.setPosition(Gdx.graphics.getWidth() / 2 - 25, Gdx.graphics.getHeight() / 2 + 60);
+        titleBottom.setFontScale(0.8f);
+        stage.addActor(titleBottom);
+
+        buttonRestart = new TextButton("Restart", mySkin);
+        buttonRestart.setSize(200, 30);
+        buttonRestart.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2);
+        buttonRestart.setTransform(true);
+        buttonRestart.scaleBy(0.5f);
+        stage.addActor(buttonRestart);
+
+        buttonMenu = new TextButton("Main Menu", mySkin);
+        buttonMenu.setSize(200, 30);
+        buttonMenu.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2 - 70);
+        buttonMenu.setTransform(true);
+        buttonMenu.scaleBy(0.5f);
+        stage.addActor(buttonMenu);
+
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        game.font.draw(game.batch, "You Win!", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        game.font.draw(game.batch, "Click to restart", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 25);
-        game.batch.end();
-
-        if (Gdx.input.isTouched()) {
+        if (buttonRestart.isChecked()) {
             game.setScreen(new GameScreen(game));
+            dispose();
+        }
+
+        if (buttonMenu.isChecked()) {
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
 
@@ -37,6 +76,7 @@ public class WinScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

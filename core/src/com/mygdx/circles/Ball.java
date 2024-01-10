@@ -2,16 +2,19 @@ package com.mygdx.circles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.awt.*;
 
-public class Ball {
+public class Ball extends Actor {
     int x;
     int y;
     double xSpeed;
     double ySpeed;
     int size;
+    private ShapeRenderer shape;
     Color color = new Color(165/255.0f, 165/255.0f, 255/255.0f, 1.0f);
 
     public Ball(int x, int y, double xSpeed, double ySpeed, int size) {
@@ -20,6 +23,9 @@ public class Ball {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.size = size;
+
+        shape = new ShapeRenderer();
+        setBounds(getX(), getY(), this.size, this.size);
     }
 
     public boolean update() {
@@ -30,13 +36,13 @@ public class Ball {
             this.x = this.size;
             xSpeed = -xSpeed;
             return true;
-        } else if (this.x + this.size > Gdx.graphics.getWidth()) {
-            this.x = Gdx.graphics.getWidth() - this.size;
+        } else if (this.x + this.size > Circles.WIDTH) {
+            this.x = Circles.WIDTH - this.size;
             xSpeed = -xSpeed;
             return true;
         }
 
-        if (this.y + this.size > Gdx.graphics.getHeight()) {
+        if (this.y + this.size > Circles.HEIGHT) {
             ySpeed = -ySpeed;
             return true;
         }
@@ -48,9 +54,21 @@ public class Ball {
         return true;
     }
 
-    public void draw(ShapeRenderer shape) {
-        shape.setColor(color);
-        shape.circle(x, y, size);
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        shape.setColor(165/255.0f,165/255.0f,1.0f,1.0f);
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.circle(this.x, this.y, this.size);
+        shape.end();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        //sprite.draw(batch);
+        batch.setColor(Color.GRAY);
+        super.draw(batch, parentAlpha);
     }
 
 

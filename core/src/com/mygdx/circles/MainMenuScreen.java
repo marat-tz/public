@@ -2,17 +2,17 @@ package com.mygdx.circles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.circles.Circles;
+
+import static com.mygdx.circles.Circles.HEIGHT;
+import static com.mygdx.circles.Circles.WIDTH;
 
 public class MainMenuScreen implements Screen {
 
@@ -20,16 +20,21 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private Button buttonStart;
     private Button buttonQuit;
-    OrthographicCamera camera;
-    Viewport viewport;
-    ShapeRenderer newGame;
-    ShapeRenderer quit;
+
+    private ShapeRenderer shape;
+
+    private Viewport viewport;
+
+    private Ball ball;
+    private Paddle paddle;
 
 
-    public MainMenuScreen(final Circles game) {
+    public MainMenuScreen(Circles game) {
         this.game = game;
 
-        stage = new Stage(new FillViewport(game.SCREEN_WIDTH, game.SCREEN_HEIGHT));
+        //stage = new Stage(new StretchViewport(WIDTH, HEIGHT));
+        viewport = new FitViewport(WIDTH, HEIGHT);
+        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -62,23 +67,30 @@ public class MainMenuScreen implements Screen {
         buttonQuit.setTransform(true);
         buttonQuit.scaleBy(0.5f);
         stage.addActor(buttonQuit);
+
     }
 
     @Override
     public void render(float delta) {
+
         delta = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+
         stage.act(delta);
         stage.draw();
 
         if (buttonStart.isChecked()) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameTestScreen(game));
             dispose();
         }
 
         if (buttonQuit.isChecked()) {
-            game.dispose();
+            dispose();
+            game.setScreen(new GameScreen(game));
+            //game.dispose();
         }
     }
 
@@ -97,6 +109,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

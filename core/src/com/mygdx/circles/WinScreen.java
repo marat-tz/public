@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 
+import static com.mygdx.circles.Circles.HEIGHT;
+import static com.mygdx.circles.Circles.WIDTH;
+
 public class WinScreen implements Screen {
     final Circles game;
     Stage stage;
@@ -22,36 +25,44 @@ public class WinScreen implements Screen {
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        Table rootTable = new Table(mySkin);
-        rootTable.background("blue");
-        rootTable.setSize(800, 480);
-        stage.addActor(rootTable);
-
         Label title = new Label("You WIN!", mySkin);
         title.setSize(150, 50);
         title.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2 + 100);
         title.setFontScale(2.5f);
-        stage.addActor(title);
+        //stage.addActor(title);
 
         Label titleBottom = new Label("Master!", mySkin);
         titleBottom.setSize(150, 50);
         titleBottom.setPosition(Gdx.graphics.getWidth() / 2 - 25, Gdx.graphics.getHeight() / 2 + 60);
         titleBottom.setFontScale(0.8f);
-        stage.addActor(titleBottom);
+        //stage.addActor(titleBottom);
 
         buttonRestart = new TextButton("Restart", mySkin);
         buttonRestart.setSize(200, 30);
         buttonRestart.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2);
         buttonRestart.setTransform(true);
         buttonRestart.scaleBy(0.5f);
-        stage.addActor(buttonRestart);
+        //stage.addActor(buttonRestart);
 
         buttonMenu = new TextButton("Main Menu", mySkin);
         buttonMenu.setSize(200, 30);
         buttonMenu.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2 - 70);
         buttonMenu.setTransform(true);
         buttonMenu.scaleBy(0.5f);
-        stage.addActor(buttonMenu);
+        //stage.addActor(buttonMenu);
+
+        Table rootTable = new Table(mySkin);
+        rootTable.background("blue");
+        rootTable.setSize(WIDTH, HEIGHT);
+        rootTable.add(title).fill();
+        rootTable.row();
+        rootTable.add(titleBottom).padBottom(40);
+        rootTable.row();
+        rootTable.add(buttonRestart).padBottom(30).padRight(55);
+        rootTable.row();
+        rootTable.add(buttonMenu).padRight(75);
+        //rootTable.setDebug(true);
+        stage.addActor(rootTable);
 
     }
 
@@ -101,6 +112,6 @@ public class WinScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

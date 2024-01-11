@@ -1,17 +1,14 @@
 package com.mygdx.circles;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 import java.util.ArrayList;
+
+import static com.mygdx.circles.Circles.HEIGHT;
+import static com.mygdx.circles.Circles.WIDTH;
 
 public class GameMechanics extends Table {
     private Paddle paddle;
@@ -21,20 +18,29 @@ public class GameMechanics extends Table {
     private TextField scoreText;
     private TextField speedText;
     private Score score;
+    private Table rootTable;
+    private Button button;
+    private BackgroundActor backgroundActor;
 
     public GameMechanics(Circles game) {
         this.game = game;
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        setBounds(0, 0, 800, 480);
+        //this.setBackground("badlogic.jpg");
+        //this.background("blue");
+        //this.setDebug(true);
+
+        setBounds(0, 0, WIDTH, HEIGHT);
 
         int blockWidth = 62;
         int blockHeight = 20;
 
+        backgroundActor = new BackgroundActor(0, 0, WIDTH, HEIGHT);
         score = new Score();
-        paddle = new Paddle(Circles.WIDTH / 2, 10, 180, 20);
-        ball = new Ball(Circles.WIDTH / 2, 45, 3, 3, 15);
+        paddle = new Paddle(WIDTH / 2, 10, 180, 20);
+        ball = new Ball(WIDTH / 2, 45, 3, 3, 15);
+
 
         scoreText = new TextField("Score:", mySkin, "nobg");
         scoreText.setSize(150, 50);
@@ -47,17 +53,19 @@ public class GameMechanics extends Table {
         speedText.scaleBy(0.5f);
 
         for(int y = Circles.HEIGHT/2 - 30; y < Circles.HEIGHT - 70; y += blockHeight + 10) {
-            for(int x = 10; x < Circles.WIDTH - 10; x += blockWidth + 10) {
+            for(int x = 10; x < WIDTH - 10; x += blockWidth + 10) {
                 blocks.add(new Block(x, y, blockWidth, blockHeight));
             }
         }
 
-
+        this.setDebug(true);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        addActor(backgroundActor);
 
         for (Block block : blocks) {
             addActor(block);
@@ -113,6 +121,8 @@ public class GameMechanics extends Table {
         batch.setColor(Color.GRAY);
         super.draw(batch, parentAlpha);
     }
+
+
 
 
 }

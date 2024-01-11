@@ -22,6 +22,7 @@ public class Circles extends Game {
 	}
 
 	public void dispose() {
-		mainMenuScreen.dispose();
+		batch.dispose();
+		font.dispose();
 	}
 }

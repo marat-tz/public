@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        TestActor actor = new TestActor(50,50,100,100);
+        BackgroundActor actor = new BackgroundActor(50,50,100,100);
         stage.addActor(actor);
         stage.setKeyboardFocus(actor);
 

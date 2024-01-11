@@ -20,13 +20,7 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private Button buttonStart;
     private Button buttonQuit;
-
-    private ShapeRenderer shape;
-
     private Viewport viewport;
-
-    private Ball ball;
-    private Paddle paddle;
 
 
     public MainMenuScreen(Circles game) {
@@ -39,34 +33,38 @@ public class MainMenuScreen implements Screen {
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        /*Window window = new Window("Window", mySkin);
-        window.setSize(800, 480);
-        stage.addActor(window);*/
-
-        Table rootTable = new Table(mySkin);
-        rootTable.background("blue");
-        rootTable.setSize(800, 480);
-        stage.addActor(rootTable);
-
         Label title = new Label("ARKANOID", mySkin);
         title.setSize(150, 50);
-        title.setPosition(Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 + 100);
+        title.setPosition(WIDTH / 2 - 130, HEIGHT / 2 + 100);
         title.setFontScale(2.5f);
-        stage.addActor(title);
+        //stage.addActor(title);
 
         buttonStart = new TextButton("Start Game", mySkin);
         buttonStart.setSize(200, 30);
-        buttonStart.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2);
+        buttonStart.setPosition(WIDTH / 2 - 125, HEIGHT / 2);
         buttonStart.setTransform(true);
         buttonStart.scaleBy(0.5f);
-        stage.addActor(buttonStart);
+        //stage.addActor(buttonStart);
 
         buttonQuit = new TextButton("Quit", mySkin);
         buttonQuit.setSize(200, 30);
-        buttonQuit.setPosition(Gdx.graphics.getWidth() / 2 - 125, Gdx.graphics.getHeight() / 2 - 70);
+        buttonQuit.setPosition(WIDTH / 2 - 125, HEIGHT / 2 - 70);
         buttonQuit.setTransform(true);
         buttonQuit.scaleBy(0.5f);
-        stage.addActor(buttonQuit);
+        //stage.addActor(buttonQuit);
+
+        Table rootTable = new Table(mySkin);
+        rootTable.background("blue");
+        rootTable.setSize(WIDTH, HEIGHT);
+        rootTable.add(title).padBottom(50).fill();
+        rootTable.row();
+        rootTable.add(buttonStart).padBottom(30).padRight(87);
+        rootTable.row();
+        rootTable.add(buttonQuit).padRight(45);
+        //rootTable.setDebug(true);
+        stage.addActor(rootTable);
+
+
 
     }
 
@@ -88,8 +86,8 @@ public class MainMenuScreen implements Screen {
         }
 
         if (buttonQuit.isChecked()) {
+            //game.setScreen(new GameOverScreen(game));
             dispose();
-            game.setScreen(new GameScreen(game));
             //game.dispose();
         }
     }
@@ -98,7 +96,7 @@ public class MainMenuScreen implements Screen {
     public void resize(int width, int height) {
         // use true here to center the camera
         // that's what you probably want in case of a UI
-        stage.getViewport().update(width, height, true);
+        viewport.update(width, height);
     }
 
     @Override
@@ -122,6 +120,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

@@ -23,6 +23,9 @@ public class WinScreen implements Screen {
         stage = new Stage(new FillViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(stage);
 
+        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        Gdx.input.setCursorCatched(false);
+
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         Label title = new Label("You WIN!", mySkin);
@@ -76,7 +79,7 @@ public class WinScreen implements Screen {
         stage.draw();
 
         if (buttonRestart.isChecked()) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameTestScreen(game));
             dispose();
         }
 

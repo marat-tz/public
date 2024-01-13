@@ -3,6 +3,7 @@ package com.mygdx.circles;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import static com.mygdx.circles.Circles.HEIGHT;
 import static com.mygdx.circles.Circles.WIDTH;
 
-public class GameMechanics extends Table {
+public class GameMechanics extends Group {
     private Paddle paddle;
     private Ball ball;
     private ArrayList<Block> blocks = new ArrayList<>();
@@ -27,20 +28,15 @@ public class GameMechanics extends Table {
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        //this.setBackground("badlogic.jpg");
-        //this.background("blue");
-        //this.setDebug(true);
-
-        setBounds(0, 0, WIDTH, HEIGHT);
+        //setBounds(0, 0, WIDTH, HEIGHT);
 
         int blockWidth = 62;
         int blockHeight = 20;
 
-        backgroundActor = new BackgroundActor(0, 0, WIDTH, HEIGHT);
+        backgroundActor = new BackgroundActor(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         score = new Score();
-        paddle = new Paddle(WIDTH / 2, 10, 180, 20);
-        ball = new Ball(WIDTH / 2, 45, 3, 3, 15);
-
+        paddle = new Paddle(Gdx.graphics.getWidth() / 2, 10, 180, 20);
+        ball = new Ball(paddle.x, 45, 3, 3, 15);
 
         scoreText = new TextField("Score:", mySkin, "nobg");
         scoreText.setSize(150, 50);
@@ -58,7 +54,13 @@ public class GameMechanics extends Table {
             }
         }
 
-        this.setDebug(true);
+        //this.add(scoreText).expandX().left();
+        //this.row();
+        //this.add(speedText).expandX().left().padBottom(440);
+        //this.row();
+        //this.setFillParent(true);
+        //this.setDebug(true);
+
     }
 
     @Override
@@ -68,16 +70,16 @@ public class GameMechanics extends Table {
         addActor(backgroundActor);
 
         for (Block block : blocks) {
-            addActor(block);
+            //addActor(block);
         }
 
-        addActor(scoreText);
-        addActor(speedText);
+        //addActor(scoreText);
+        //addActor(speedText);
 
-        addActor(paddle);
+        //addActor(paddle);
         paddle.update();
 
-        addActor(ball);
+        //addActor(ball);
         if(ball.update()) {
             if(ball.checkCollision(paddle) && paddle.width > 90) {
                 paddle.width = paddle.width - paddle.width / blocks.size();
@@ -103,7 +105,7 @@ public class GameMechanics extends Table {
             Block b = blocks.get(i);
             if (b.destroyed) {
                 blocks.remove(b);
-                removeActor(b);
+                //removeActor(b);
                 score.scoreIncrease();
                 // we need to decrement i when a ball gets removed, otherwise we skip a ball
                 i--;

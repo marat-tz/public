@@ -29,6 +29,9 @@ public class GameOverScreen implements Screen {
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
+        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        Gdx.input.setCursorCatched(false);
+
         Skin mySkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         Label title = new Label("Game Over", mySkin);
@@ -97,7 +100,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height);
+        viewport.update(width, height, true);
     }
 
     @Override

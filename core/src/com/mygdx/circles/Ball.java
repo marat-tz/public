@@ -2,19 +2,21 @@ package com.mygdx.circles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.awt.*;
 
-public class Ball extends Actor {
+public class Ball {
     int x;
     int y;
     double xSpeed;
     double ySpeed;
     int size;
-    private ShapeRenderer shape;
+
     Color color = new Color(165/255.0f, 165/255.0f, 255/255.0f, 1.0f);
 
     public Ball(int x, int y, double xSpeed, double ySpeed, int size) {
@@ -23,9 +25,7 @@ public class Ball extends Actor {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.size = size;
-
-        shape = new ShapeRenderer();
-        setBounds(getX(), getY(), this.size, this.size);
+        //setBounds(getX(), getY(), this.size, this.size);
     }
 
     public boolean update() {
@@ -54,21 +54,11 @@ public class Ball extends Actor {
         return true;
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
 
-        shape.setColor(165/255.0f,165/255.0f,1.0f,1.0f);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.circle(this.x, this.y, this.size);
-        shape.end();
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
+    public void draw(ShapeRenderer shape) {
         //sprite.draw(batch);
-        batch.setColor(Color.GRAY);
-        super.draw(batch, parentAlpha);
+        shape.setColor(165/255.0f,165/255.0f,1.0f,1.0f);
+        shape.circle(this.x, this.y, this.size);
     }
 
 

@@ -12,38 +12,23 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-public class BackgroundActor extends Actor {
+public class BackgroundActor extends Table {
 
     float x, y, width, height;
 
-    Sprite sprite = new Sprite(new Texture(Gdx.files.internal("badlogic.jpg")));
+    //Sprite sprite = new Sprite(new Texture(Gdx.files.internal("badlogic.jpg")));
     ShapeRenderer shape = new ShapeRenderer();
 
     public BackgroundActor(float x, float y, float width, float height) {
-
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
 
-        //setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
         setBounds(getX(), getY(), getWidth(), getHeight());
-        setTouchable(Touchable.enabled);
-
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.RIGHT) {
-                    MoveByAction mba = new MoveByAction();
-                    mba.setAmount(1.0f, 0f);
-                    mba.setDuration(1.0f); //время, которое актор будет двигаться
-
-                    BackgroundActor.this.addAction(mba);
-                }
-                return true;
-            }
-        });
     }
 
     @Override

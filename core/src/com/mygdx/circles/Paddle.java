@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-public class Paddle extends Actor {
+public class Paddle {
     int x, y, width, height;
 
-    private ShapeRenderer shape;
 
     public Paddle(int x, int y, int width, int height) {
         this.x = x;
@@ -18,19 +17,6 @@ public class Paddle extends Actor {
         this.width = width;
         this.height = height;
 
-        shape = new ShapeRenderer();
-        setBounds(getX(), getY(), getWidth(), getHeight());
-
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        shape.setColor(165/255.0f,165/255.0f,1.0f,1.0f);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.rect(this.x, this.y, this.width, this.height);
-        shape.end();
     }
 
     public void update() {
@@ -46,10 +32,8 @@ public class Paddle extends Actor {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        //sprite.draw(batch);
-        batch.setColor(Color.GRAY);
-        super.draw(batch, parentAlpha);
+    public void draw(ShapeRenderer shape) {
+        shape.setColor(165/255.0f,165/255.0f,1.0f,1.0f);
+        shape.rect(this.x, this.y, this.width, this.height);
     }
 }

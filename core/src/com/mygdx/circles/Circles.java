@@ -15,14 +15,15 @@ public class Circles extends Game {
 
 		mainMenuScreen = new MainMenuScreen(this);
 		setScreen(mainMenuScreen);
+		//setScreen(testScreenFirst);
 
-		batch = new SpriteBatch();
-		font = new BitmapFont(); // use libGDX's default Arial font
+		//batch = new SpriteBatch();
+		//font = new BitmapFont(); // use libGDX's default Arial font
 
 	}
 
 	public void dispose() {
-		batch.dispose();
-		font.dispose();
+		//batch.dispose();
+		//font.dispose();
 	}
 }
